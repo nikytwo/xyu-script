@@ -1,10 +1,19 @@
 ########################################################
-## æ‰¹é‡å¯¼å…¥å‘ sqlserverå®ä¾‹çš„æ‰€æœ‰æ–°å¢æ•°æ®åº“å¯¼å…¥ K3 API ä»¥åŠ åŸºæœ¬çš„ä¼šè®¡ç§‘ç›®
-## å¯æ¥å—å‚æ•° sqlserverå®ä¾‹ å’Œ K3å¸å¥—ä¿¡æ¯æ•°æ®åº“
+## ÅúÁ¿µ¼ÈëÏò sqlserverÊµÀıµÄËùÓĞĞÂÔöÊı¾İ¿âµ¼Èë K3 API ÒÔ¼° »ù±¾µÄ»á¼Æ¿ÆÄ¿
+## ¿É½ÓÊÜ²ÎÊı sqlserverÊµÀıÃû£¬K3ÕÊÌ×ĞÅÏ¢Êı¾İ¿â£¬Êı¾İ¿âÓÃ»§id£¬Êı¾İ¿âÃÜÂëºÍ²éÑ¯µÄwhere×Ó¾ä
+## ²ÎÊıËµÃ÷£º
+## -servername : sql server Êı¾İ¿âÊµÀıÃû£¬Èç£º153.0.0.87\SQL2005
+## -db £ºK3ÕÊÌ×ĞÅÏ¢Êı¾İ¿â ,Ò»°ãÄ£Ê½Îª£ºKDAcctDB
+## -user £ºµÇÂ¼Êı¾İ¿âµÄÓÃ»§Ãû
+## -password £ºµÇÂ¼Êı¾İ¿âµÄÓÃ»§ÃÜÂë
+## -wheresql : ×Ô¶¨Òå²éÑ¯µÄwhereÓï¾ä£¬Èç£º-wheresql "facctnumber like '15.%'" Îª²éÑ¯ÕÊÌ×±àÂëÎª¡±15.¡°¿ªÍ·µÄÕÊÌ×¡£
+## Èç£º
+## & '.\AutoInitIO&Acct' 151.0.0.190 
+## & '.\AutoInitIO&Acct' 151.0.0.190 -wheresql "facctnumber like '15.%'"
 ########################################################
 
-## åˆå§‹åŒ–å‚æ•°
-param($servername,$db,$user,$password)
+## ³õÊ¼»¯²ÎÊı
+param($servername,$db,$user,$password,$wheresql)
 
 if (-not $servername)
 {
@@ -14,12 +23,24 @@ if (-not $user)
 {
 	$user = "sa"
 }
-"æ•°æ®åº“å®ä¾‹ï¼š" + $servername
-"ç”¨æˆ·ï¼š" + $user
-"å¯†ç ï¼š" + $password
+if (-not $wheresql)
+{
+	$wheresql = ""
+}
+elseif($wheresql.StartsWith('and '))
+{
+	$wheresql = " " + $wheresql
+}
+elseif(-not $wheresql.TrimStart().StartsWith('and '))
+{
+	$wheresql = " and " + $wheresql
+}
+"Êı¾İ¿âÊµÀı£º" + $servername
+"ÓÃ»§£º" + $user
+"ÃÜÂë£º" + $password
 
 
-## åˆ¤æ–­ K3 ç‰ˆæœ¬ï¼Œå¹¶æ ¹æ®ç‰ˆæœ¬æŸ¥è¯¢å¸å¥—ä¿¡æ¯
+## ÅĞ¶Ï K3 °æ±¾£¬²¢¸ù¾İ°æ±¾²éÑ¯ÕÊÌ×ĞÅÏ¢
 Add-PSSnapin sqlserverCmdletSnapin100
 
 if ($password)
@@ -32,26 +53,26 @@ else
 }
 if ($Exists)
 {
-	## K3 13.0 ç‰ˆ
+	## K3 13.0 °æ
 	if (-not $db)
 	{
 		$db = "KDAcctDB"
 	}
-	"K3å¸å¥—ä¿¡æ¯æ•°æ®åº“ï¼š" + $db
-	$tmpSQLStr = "select FDBName from t_ad_kdaccount_gl"
+	"K3ÕÊÌ×ĞÅÏ¢Êı¾İ¿â£º" + $db
+	$tmpSQLStr = "select FDBName from t_ad_kdaccount_gl where 1 = 1" + $wheresql
 }
 else
 {
-	## K3 10.3 ç‰ˆ
+	## K3 10.3 °æ
 	if (-not $db)
 	{
 		$db = "master"
 	}
-	"K3å¸å¥—ä¿¡æ¯æ•°æ®åº“ï¼š" + $db
-	$tmpSQLStr = "select name from dbo.sysdatabases where dbid > 6"
+	"K3ÕÊÌ×ĞÅÏ¢Êı¾İ¿â£º" + $db
+	$tmpSQLStr = "select name from dbo.sysdatabases where dbid > 6" + $wheresql
 }
 
-## è·å–æ‰€æœ‰å¸å¥—å¯¹åº”çš„æ•°æ®åº“åç§°åˆ—è¡¨
+## »ñÈ¡ËùÓĞÕÊÌ×¶ÔÓ¦µÄÊı¾İ¿âÃû³ÆÁĞ±í
 if ($password)
 {
 	$dbnames = Invoke-SqlCmd -ServerInstance $servername -Database $db -U $user -P $password -Query $tmpSQLStr 
@@ -63,16 +84,18 @@ else
 
 Remove-PSSnapin sqlserverCmdletSnapin100
 
-## å¯¹æ¯ä¸ªå¸å¥—æ‰§è¡Œå¦‚ä¸‹æ“ä½œ
+## ¶ÔÃ¿¸öÕÊÌ×Ö´ĞĞÈçÏÂ²Ù×÷
 foreach ($dbname in $dbnames)
 {
 	$dbname
-	## åˆå§‹åŒ–åŸºç¡€ç§‘ç›®
+	## ³õÊ¼»¯»ù´¡¿ÆÄ¿
 	#.\InitK3BasicAccount $servername $dbname[0] $user $password
-	## åˆå§‹åŒ–å­˜å‚¨è¿‡ç¨‹
-	#.\InitK3IO $servername $dbname[0] $user $password
-	## åˆå§‹åŒ–å‡½æ•°
-	#.\InitK3Fun $servername $dbname[0] $user $password
-	## åˆå§‹åŒ–ä¸‡èƒ½æŠ¥è¡¨
+	## ³õÊ¼»¯´æ´¢¹ı³Ì
+	.\InitK3IO $servername $dbname[0] $user $password
+	## ³õÊ¼»¯º¯Êı
+	.\InitK3Fun $servername $dbname[0] $user $password
+	## ³õÊ¼»¯ÍòÄÜ±¨±í´æ´¢¹ı³Ì
 	.\InitK3Report $servername $dbname[0] $user $password
+	## µ¼ÈëK3ÍòÄÜ±¨±í
+	.\ImportK3Report $servername $dbname[0] $user $password
 }

@@ -1,18 +1,14 @@
 ########################################################
-## å‘ sqlserverå®ä¾‹çš„æŒ‡å®šæ•°æ®åº“å¯¼å…¥ K3 å­˜å‚¨è¿‡ç¨‹ï¼ˆåœ¨$fileList å‚æ•°æŒ‡å®šï¼‰ 
-## å¯æ¥å—å‚æ•° sqlserverå®ä¾‹ å’Œ K3å¸å¥—æ•°æ®åº“å ä»¥åŠ ç”¨æˆ·åã€å¯†ç 
+## Ïò sqlserverÊµÀıµÄÖ¸¶¨Êı¾İ¿âµ¼Èë K3 ´æ´¢¹ı³Ì£¨ÔÚ$fileList ²ÎÊıÖ¸¶¨£© 
+## ¿É½ÓÊÜ²ÎÊı sqlserverÊµÀı ºÍ K3ÕÊÌ×Êı¾İ¿âÃû ÒÔ¼° ÓÃ»§Ãû¡¢ÃÜÂë
+## Example: 
+## InitK3IO 10.0.0.1 "" sa ""
+## InitK3IO -servername 10.0.0.1 -user sa 
+## InitK3IO 10.0.0.1 -password 123
 ########################################################
 
-## åˆå§‹åŒ–å‚æ•°
+## ³õÊ¼»¯²ÎÊı
 param($servername,$dbname,$user,$password)
-
-$fileList = ".\K3_yhrjz.sql",
-".\K_GetSetItemDetailID.sql",
-".\K_CheckItemDetailID.sql",
-".\K_GetAddItemClass.sql",
-".\K_AddAccount.sql",
-".\K_AddUser.sql",
-".\K_AddVoucherEntry.sql"
 
 if (-not $servername)
 {
@@ -26,21 +22,29 @@ if (-not $user)
 {
 	$user = "sa"
 }
-"æ•°æ®åº“å®ä¾‹ï¼š" + $servername
-"K3å¸å¥—æ•°æ®åº“ï¼š" + $dbname
-"ç”¨æˆ·ï¼š" + $user
-"å¯†ç ï¼š" + $password
+"Êı¾İ¿âÊµÀı£º" + $servername
+"K3ÕÊÌ×Êı¾İ¿â£º" + $dbname
+"ÓÃ»§£º" + $user
+"ÃÜÂë£º" + $password
+
+$fileList = ".\K3_yhrjz.sql",
+".\K_GetSetItemDetailID.sql",
+".\K_CheckItemDetailID.sql",
+".\K_GetAddItemClass.sql",
+".\K_AddAccount.sql",
+".\K_AddUser.sql",
+".\K_AddVoucherEntry.sql"
 
 Add-PSSnapin sqlserverCmdletSnapin100
 
 foreach($file in $fileList)
 {
-	"æ‰§è¡Œ sql æ–‡ä»¶(å­˜å‚¨è¿‡ç¨‹)" + $file
+	"Ö´ĞĞ sql ÎÄ¼ş(´æ´í¹ı³Ì):" + $file
 	$content = get-content $file
 	$SqlString = ""
 	foreach($obj in $content)
 	{
-		$SqlString += "`n" + $obj.ToString() ## æ¢è¡Œ
+		$SqlString += "`n" + $obj.ToString() ## »»ĞĞ
 	}
 	## execute $SqlString
 	if ($password)

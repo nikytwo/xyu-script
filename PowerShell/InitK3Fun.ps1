@@ -1,10 +1,14 @@
 ########################################################
-## å‘ sqlserverå®ä¾‹çš„åˆ¶å®šæ•°æ®åº“å¯¼å…¥ K3 æ•°æ®åº“å‡½æ•°ï¼ˆåœ¨$fileList å‚æ•°æŒ‡å®šï¼‰ 
-## InitK3IO.ps1 æ— æ³•å‘SQLSERVER2000å¯¼å…¥ å‡½æ•° ï¼Œæ‰€ä»¥ä½¿ç”¨ ADO.NET è¿›è¡Œå¯¼å…¥
-## å¯æ¥å—å‚æ•° sqlserverå®ä¾‹ å’Œ K3å¸å¥—æ•°æ®åº“å ä»¥åŠ ç”¨æˆ·åã€å¯†ç 
+## Ïò sqlserverÊµÀıµÄÖÆ¶¨Êı¾İ¿âµ¼Èë K3 Êı¾İ¿âº¯Êı£¨ÔÚ$fileList ²ÎÊıÖ¸¶¨£© 
+## InitK3IO.ps1 ÎŞ·¨ÏòSQLSERVER2000µ¼Èë º¯Êı £¬ËùÒÔÊ¹ÓÃ ADO.NET ½øĞĞµ¼Èë
+## ¿É½ÓÊÜ²ÎÊı sqlserverÊµÀı ºÍ K3ÕÊÌ×Êı¾İ¿âÃû ÒÔ¼° ÓÃ»§Ãû¡¢ÃÜÂë
+## Example: 
+## InitK3Fun 10.0.0.1 "" sa ""
+## InitK3Fun -servername 10.0.0.1 -user sa 
+## InitK3Fun 10.0.0.1 -password 123
 ########################################################
 
-## åˆå§‹åŒ–å‚æ•°
+## ³õÊ¼»¯²ÎÊı
 param($servername,$dbname,$user,$password)
 
 if (-not $servername)
@@ -19,10 +23,10 @@ if (-not $user)
 {
 	$user = "sa"
 }
-"æ•°æ®åº“å®ä¾‹ï¼š" + $servername
-"K3å¸å¥—æ•°æ®åº“ï¼š" + $dbname
-"ç”¨æˆ·ï¼š" + $user
-"å¯†ç ï¼š" + $password
+"Êı¾İ¿âÊµÀı£º" + $servername
+"K3ÕÊÌ×Êı¾İ¿â£º" + $dbname
+"ÓÃ»§£º" + $user
+"ÃÜÂë£º" + $password
 
 
 $fileList = ".\getItemClass.sql",
@@ -31,14 +35,14 @@ $fileList = ".\getItemClass.sql",
 ".\getItemNumber.sql",
 ".\getItemsCount.sql"
 
-## ä½¿ç”¨ sql ADO.NET å¯¹è±¡é“¾æ¥æ•°æ®åº“
+## Ê¹ÓÃ sql ADO.NET ¶ÔÏóÁ´½ÓÊı¾İ¿â
 $sqlCon = New-Object System.Data.SqlClient.SqlConnection
 $sqlCom = New-Object System.Data.SqlClient.SqlCommand
 $sqlCom.Connection = $sqlCon
 
 foreach($file in $fileList)
 {
-	"æ‰§è¡Œ sql æ–‡ä»¶(å‡½æ•°)" + $file
+	"Ö´ĞĞ sql ÎÄ¼ş(º¯Êı):" + $file
 	$content = get-content $file
 	$SqlString = ""
 	foreach($obj in $content)

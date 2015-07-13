@@ -1,9 +1,9 @@
 ########################################################
-## å‘ sqlserverå®ä¾‹çš„æŒ‡å®šæ•°æ®åº“å¯¼å…¥ K3 åŸºæœ¬ç§‘ç›®
-## å¯æ¥å—å‚æ•° sqlserverå®ä¾‹ å’Œ K3å¸å¥—æ•°æ®åº“å ä»¥åŠ ç”¨æˆ·åã€å¯†ç 
+## Ïò sqlserverÊµÀıµÄÖ¸¶¨Êı¾İ¿âµ¼Èë K3 »ù±¾¿ÆÄ¿
+## ¿É½ÓÊÜ²ÎÊı sqlserverÊµÀı ºÍ K3ÕÊÌ×Êı¾İ¿âÃû ÒÔ¼° ÓÃ»§Ãû¡¢ÃÜÂë
 ########################################################
 
-## åˆå§‹åŒ–å‚æ•°
+## ³õÊ¼»¯²ÎÊı
 param($servername,$dbname,$user,$password)
 
 if (-not $servername)
@@ -18,67 +18,67 @@ if (-not $user)
 {
 	$user = "sa"
 }
-"æ•°æ®åº“å®ä¾‹ï¼š" + $servername
-"K3å¸å¥—æ•°æ®åº“ï¼š" + $dbname
-"ç”¨æˆ·ï¼š" + $user
-"å¯†ç ï¼š" + $password
+"Êı¾İ¿âÊµÀı£º" + $servername
+"K3ÕÊÌ×Êı¾İ¿â£º" + $dbname
+"ÓÃ»§£º" + $user
+"ÃÜÂë£º" + $password
 
 Add-PSSnapin sqlserverCmdletSnapin100
 
-## å¯¼å…¥åŸºæœ¬ç§‘ç›®
+## µ¼Èë»ù±¾¿ÆÄ¿
 if ($password)
-{	$sqlStr = "exec K_AddAccount '4001','è´¢æ”¿è¡¥åŠ©æ”¶å…¥',-1,1,0,'',''"
+{	$sqlStr = "exec K_AddAccount '4001','²ÆÕş²¹ÖúÊÕÈë',-1,1,0,'',''"
 	Invoke-SqlCmd -ServerInstance $servername -Database $dbname -U $user -P $password -Query $sqlStr
-	$sqlStr = "exec K_AddAccount '5001','äº‹ä¸šæ”¯å‡º',1,1,0,'',''"
+	$sqlStr = "exec K_AddAccount '5001','ÊÂÒµÖ§³ö',1,1,0,'',''"
 	Invoke-SqlCmd -ServerInstance $servername -Database $dbname -U $user -P $password -Query $sqlStr
-	$sqlStr = "exec K_AddAccount '4005','äº‹ä¸šæ”¶å…¥',-1,1,0,'',''"
+	$sqlStr = "exec K_AddAccount '4005','ÊÂÒµÊÕÈë',-1,1,0,'',''"
 	Invoke-SqlCmd -ServerInstance $servername -Database $dbname -U $user -P $password -Query $sqlStr
-	$sqlStr = "exec K_AddAccount '5005','äº‹ä¸šæ”¯å‡º',1,1,0,'',''"
+	$sqlStr = "exec K_AddAccount '5005','ÊÂÒµÖ§³ö',1,1,0,'',''"
 	Invoke-SqlCmd -ServerInstance $servername -Database $dbname -U $user -P $password -Query $sqlStr
 	
-	$sqlStr = "exec K_AddAccount '401','æ‹¨å…¥ç»è´¹',-1,1,0,'',''"
+	$sqlStr = "exec K_AddAccount '401','²¦Èë¾­·Ñ',-1,1,0,'',''"
 	Invoke-SqlCmd -ServerInstance $servername -Database $dbname -U $user -P $password -Query $sqlStr
-	$sqlStr = "exec K_AddAccount '501','ç»è´¹æ”¯å‡º',1,1,0,'',''"
+	$sqlStr = "exec K_AddAccount '501','¾­·ÑÖ§³ö',1,1,0,'',''"
 	Invoke-SqlCmd -ServerInstance $servername -Database $dbname -U $user -P $password -Query $sqlStr
-	$sqlStr = "exec K_AddAccount '405','åŸºé‡‘æ”¶å…¥',-1,1,0,'',''"
+	$sqlStr = "exec K_AddAccount '405','»ù½ğÊÕÈë',-1,1,0,'',''"
 	Invoke-SqlCmd -ServerInstance $servername -Database $dbname -U $user -P $password -Query $sqlStr
-	$sqlStr = "exec K_AddAccount '505','åŸºé‡‘æ”¯å‡º',1,1,0,'',''"
+	$sqlStr = "exec K_AddAccount '505','»ù½ğÖ§³ö',1,1,0,'',''"
 	Invoke-SqlCmd -ServerInstance $servername -Database $dbname -U $user -P $password -Query $sqlStr
-	$sqlStr = "exec K_AddAccount '102','é“¶è¡Œå­˜æ¬¾',1,1,0,'',''"
+	$sqlStr = "exec K_AddAccount '102','ÒøĞĞ´æ¿î',1,1,0,'',''"
 	Invoke-SqlCmd -ServerInstance $servername -Database $dbname -U $user -P $password -Query $sqlStr
-	$sqlStr = "exec K_AddAccount '107','é›¶ä½™é¢è´¦æˆ·ç”¨æ¬¾é¢åº¦',1,1,1,'',''"
+	$sqlStr = "exec K_AddAccount '107','ÁãÓà¶îÕË»§ÓÃ¿î¶î¶È',1,1,1,'',''"
 	Invoke-SqlCmd -ServerInstance $servername -Database $dbname -U $user -P $password -Query $sqlStr
-	$sqlStr = "exec K_AddAccount '111','æš‚ä»˜æ¬¾',1,1,1,'',''"
+	$sqlStr = "exec K_AddAccount '111','Ôİ¸¶¿î',1,1,1,'',''"
 	Invoke-SqlCmd -ServerInstance $servername -Database $dbname -U $user -P $password -Query $sqlStr
-	$sqlStr = "exec K_AddAccount '101','ç°é‡‘',1,1,1,'',''"
+	$sqlStr = "exec K_AddAccount '101','ÏÖ½ğ',1,1,1,'',''"
 	Invoke-SqlCmd -ServerInstance $servername -Database $dbname -U $user -P $password -Query $sqlStr
 }
 else
 {
-	$sqlStr = "exec K_AddAccount '4001','è´¢æ”¿è¡¥åŠ©æ”¶å…¥',-1,1,0,'',''"
+	$sqlStr = "exec K_AddAccount '4001','²ÆÕş²¹ÖúÊÕÈë',-1,1,0,'',''"
 	Invoke-SqlCmd -ServerInstance $servername -Database $dbname -U $user  -Query $sqlStr
-	$sqlStr = "exec K_AddAccount '5001','äº‹ä¸šæ”¯å‡º',1,1,0,'',''"
+	$sqlStr = "exec K_AddAccount '5001','ÊÂÒµÖ§³ö',1,1,0,'',''"
 	Invoke-SqlCmd -ServerInstance $servername -Database $dbname -U $user  -Query $sqlStr
-	$sqlStr = "exec K_AddAccount '4005','äº‹ä¸šæ”¶å…¥',-1,1,0,'',''"
+	$sqlStr = "exec K_AddAccount '4005','ÊÂÒµÊÕÈë',-1,1,0,'',''"
 	Invoke-SqlCmd -ServerInstance $servername -Database $dbname -U $user  -Query $sqlStr
-	$sqlStr = "exec K_AddAccount '5005','äº‹ä¸šæ”¯å‡º',1,1,0,'',''"
+	$sqlStr = "exec K_AddAccount '5005','ÊÂÒµÖ§³ö',1,1,0,'',''"
 	Invoke-SqlCmd -ServerInstance $servername -Database $dbname -U $user  -Query $sqlStr
 	
-	$sqlStr = "exec K_AddAccount '401','æ‹¨å…¥ç»è´¹',-1,1,0,'',''"
+	$sqlStr = "exec K_AddAccount '401','²¦Èë¾­·Ñ',-1,1,0,'',''"
 	Invoke-SqlCmd -ServerInstance $servername -Database $dbname -U $user  -Query $sqlStr
-	$sqlStr = "exec K_AddAccount '501','ç»è´¹æ”¯å‡º',1,1,0,'',''"
+	$sqlStr = "exec K_AddAccount '501','¾­·ÑÖ§³ö',1,1,0,'',''"
 	Invoke-SqlCmd -ServerInstance $servername -Database $dbname -U $user  -Query $sqlStr
-	$sqlStr = "exec K_AddAccount '405','åŸºé‡‘æ”¶å…¥',-1,1,0,'',''"
+	$sqlStr = "exec K_AddAccount '405','»ù½ğÊÕÈë',-1,1,0,'',''"
 	Invoke-SqlCmd -ServerInstance $servername -Database $dbname -U $user  -Query $sqlStr
-	$sqlStr = "exec K_AddAccount '505','åŸºé‡‘æ”¯å‡º',1,1,0,'',''"
+	$sqlStr = "exec K_AddAccount '505','»ù½ğÖ§³ö',1,1,0,'',''"
 	Invoke-SqlCmd -ServerInstance $servername -Database $dbname -U $user  -Query $sqlStr
-	$sqlStr = "exec K_AddAccount '102','é“¶è¡Œå­˜æ¬¾',1,1,0,'',''"
+	$sqlStr = "exec K_AddAccount '102','ÒøĞĞ´æ¿î',1,1,0,'',''"
 	Invoke-SqlCmd -ServerInstance $servername -Database $dbname -U $user  -Query $sqlStr
-	$sqlStr = "exec K_AddAccount '107','é›¶ä½™é¢è´¦æˆ·ç”¨æ¬¾é¢åº¦',1,1,1,'',''"
+	$sqlStr = "exec K_AddAccount '107','ÁãÓà¶îÕË»§ÓÃ¿î¶î¶È',1,1,1,'',''"
 	Invoke-SqlCmd -ServerInstance $servername -Database $dbname -U $user  -Query $sqlStr
-	$sqlStr = "exec K_AddAccount '111','æš‚ä»˜æ¬¾',1,1,1,'',''"
+	$sqlStr = "exec K_AddAccount '111','Ôİ¸¶¿î',1,1,1,'',''"
 	Invoke-SqlCmd -ServerInstance $servername -Database $dbname -U $user  -Query $sqlStr
-	$sqlStr = "exec K_AddAccount '101','ç°é‡‘',1,1,1,'',''"
+	$sqlStr = "exec K_AddAccount '101','ÏÖ½ğ',1,1,1,'',''"
 	Invoke-SqlCmd -ServerInstance $servername -Database $dbname -U $user  -Query $sqlStr
 }
 
