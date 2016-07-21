@@ -1,0 +1,19 @@
+run{
+    # 备份集保留策略，保留14天内的备份
+	configure retention policy to recovery window of 14 days;
+
+    # 设置自动备份控制文件及路径
+	configure controlfile autobackup on;
+	configure controlfile autobackup format for device type disk to "F:/OracleBackup/rman/ctrl_%F.bak";
+
+    # 设置备份集通道和路径，差异备份(1级)
+	allocate channel ch1 device type disk format "F:/OracleBackup/rman/%d_%T_%t.bak";
+	backup incremental level=1 tablespace ELBONLINE_DATA skip inaccessible 
+	    plus archivelog 
+		delete all input;
+	release channel ch1;
+}
+allocate channel for maintenance device type disk;
+crosscheck backupset;
+delete noprompt obsolete;
+
