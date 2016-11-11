@@ -1,0 +1,1 @@
+rsync -avzP --delete --password-file=/etc/rsyncd199.secrets /project/skg-headline-root/modules/headline-admin/target/headline-admin-1.0.0-SNAPSHOT.war  com@120.76.152.185::com
