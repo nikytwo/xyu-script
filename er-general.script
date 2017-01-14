@@ -1,0 +1,15 @@
+
+# er script
+metrics e.usr
+sort e.user
+limit 25
+functions
+metrics e.system:e.%user:e.%lock
+sort e.system
+limit 10
+functions
+metrics e.%lock
+sort e.%lock
+limit 5
+functions
+quit

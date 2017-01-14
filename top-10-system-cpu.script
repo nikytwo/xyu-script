@@ -1,0 +1,7 @@
+
+# er script
+metrics e.%system:e.%user:e.%lock
+sort e.%system
+limit 10
+functions
+quit
